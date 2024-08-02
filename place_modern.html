@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Apartment</title>
+    <title>Beautiful Beach House</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -23,14 +23,14 @@
         </div>
     </header>
     <main>
-        <h1>Modern Apart</h1>
+        <h1>Modern Apartment</h1>
             <img src="images/modern_apart.jpg" class="place-image-large" alt="Place Image">
         <div class="place-details">
             
             <div class="place-details-text">
                 <p><strong>Host:</strong> John Doe</p>
-                <p><strong>Price per night:</strong> $150</p>
-                <p><strong>Location:</strong> Los Angeles, United States</p>
+                <p><strong>Price per night:</strong> $200</p>
+                <p><strong>Location:</strong> New York, United States</p>
                 <p><strong>Description:</strong> A beautiful beach house with amazing views...</p>
                 <p><strong>Amenities:</strong> WiFi, Pool, Air Conditioning</p>
             </div>
@@ -47,6 +47,26 @@
                 <p>Amazing location and very comfortable.</p>
                 <p><strong>Rating:</strong> ★★★★★</p>
             </div>
+        </div>
+        <div class="review-container">
+            <h2 class="h2add-review">Add a Review</h2>
+            <form action="submit_review" method="post" class="add-review form">
+                <div class="form-group">
+                    <label for="review">Your Review:</label>
+                    <textarea id="review" name="review" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="rating">Rating:</label>
+                    <select id="rating" name="rating" required>
+                        <option value="1">1 Star</option>
+                        <option value="2">2 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="5">5 Stars</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-button">Submit Review</button>
+            </form>
         </div>
     </main>
     <footer>
