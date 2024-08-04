@@ -1,59 +1,191 @@
-### HBnB Evolution Project: Part 3 - Front-end Web Development
+# Simple Testing API for HBnB Evolution Part 3
 
-In this phase, you'll be focusing on the front-end development of your application using HTML5, CSS3, and JavaScript ES6. Your task is to design and implement an interactive user interface that connects with the back-end services you have developed in previous parts of the project.
+This is a simple testing API for the HBnB Evolution part 3. The API serves as a backend for testing the frontend functionality of the HBnB Evolution project. It provides endpoints for user authentication, fetching places, fetching place details, and adding reviews.
 
-#### Objectives
+## Project Structure
 
-- Develop a user-friendly interface following provided design specifications.
-- Implement client-side functionality to interact with the back-end API.
-- Ensure secure and efficient data handling using JavaScript.
-- Apply modern web development practices to create a dynamic web application.
+```
+api/
+│
+├── data/
+│   ├── places.json
+│   ├── users.json
+│   ├── cities.json
+│   └── countries.json
+│
+├── app.py
+├── config.py
+├── requirements.txt
+└── README.md
+```
 
-#### Learning Goals
+### Data Files
 
-- Understand and apply HTML5, CSS3, and JavaScript ES6 in a real-world project.
-- Learn to interact with back-end services using AJAX/Fetch API.
-- Implement authentication mechanisms and manage user sessions.
-- Use client-side scripting to enhance user experience without page reloads.
+- `data/users.json`: Contains user data including emails and plain text passwords.
+- `data/places.json`: Contains place data with various attributes and some sample reviews.
+- `data/cities.json`: Contains city data linked to countries.
+- `data/countries.json`: Contains country data.
 
-#### Tasks Breakdown
+### API Endpoints
 
-1. **Design (Task 1)**
-   - Complete [provided HTML and CSS files](./base_files) to match the given design specifications.
-   - Create pages for Login, List of Places, Place Details, and Add Review.
+#### POST `/login`
 
-2. **Login (Task 2)**
-   - Implement login functionality using the back-end API.
-   - Store the JWT token returned by the API in a cookie for session management.
+Authenticates a user and returns a JWT token.
 
-3. **List of Places (Task 3)**
-   - Implement the main page to display a list of all places.
-   - Fetch places data from the API and implement client-side filtering based on country selection.
-   - Ensure the page redirects to the login page if the user is not authenticated.
+- **Request Body:**
+  ```json
+  {
+      "email": "user@example.com",
+      "password": "password"
+  }
+  ```
 
-4. **Place Details (Task 4)**
-   - Implement the detailed view of a place.
-   - Fetch place details from the API using the place ID.
-   - Provide access to the add review form if the user is authenticated.
+- **Response:**
+  ```json
+  {
+      "access_token": "your_jwt_token"
+  }
+  ```
 
-5. **Add Review (Task 5)**
-   - Implement the form to add a review for a place.
-   - Ensure the form is accessible only to authenticated users, redirecting others to the index page.
+#### GET `/places`
 
-#### Resources
+Returns a list of places with general information.
 
-- [HTML5 Documentation](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5)
-- [CSS3 Documentation](https://developer.mozilla.org/en-US/docs/Web/CSS)
-- [JavaScript ES6 Features](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-- [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
-- [Handling Cookies in JavaScript](https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie)
-- [Client-Side Form Validation](https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation)
+- **Response:**
+  ```json
+  [
+      {
+          "id": "place-1",
+          "host_id": "user-1",
+          "host_name": "John Doe",
+          "description": "A lovely place to stay.",
+          "price_per_night": 100.0,
+          "city_id": "city-1",
+          "city_name": "New York",
+          "country_code": "US",
+          "country_name": "United States"
+      },
+      ...
+  ]
+  ```
 
-#### Sample Design
+#### GET `/places/{id}`
 
-index.html
-![hbnb_index.png](./hbnb_index.png)
+Returns detailed information about a specific place.
 
-place.html with embeded add_review.html
-![place_full.png](./place_full.png)
+- **Response:**
+  ```json
+  {
+      "id": "place-1",
+      "host_id": "user-1",
+      "host_name": "John Doe",
+      "description": "A lovely place to stay.",
+      "number_of_rooms": 3,
+      "number_of_bathrooms": 2,
+      "max_guests": 6,
+      "price_per_night": 100.0,
+      "latitude": 40.7128,
+      "longitude": -74.0060,
+      "city_id": "city-1",
+      "city_name": "New York",
+      "country_code": "US",
+      "country_name": "United States",
+      "amenities": ["WiFi", "Pool", "Air Conditioning"],
+      "reviews": [
+          {
+              "user_name": "Jane Smith",
+              "rating": 5,
+              "comment": "Amazing place, very clean and comfortable."
+          },
+          ...
+      ]
+  }
+  ```
 
+#### POST `/places/{id}/reviews`
+
+Adds a review for a specific place. Requires authentication.
+
+- **Request Headers:**
+  ```http
+  Authorization: Bearer your_jwt_token
+  ```
+
+- **Request Body:**
+  ```json
+  {
+      "rating": 5,
+      "review": "This place was fantastic!"
+  }
+  ```
+
+- **Response:**
+  ```json
+  {
+      "msg": "Review added"
+  }
+  ```
+
+## Instructions to Run the API
+
+### Create a Virtual Environment
+
+It is recommended to create a virtual environment to manage the Python packages. Follow these steps:
+
+1. **Create a virtual environment:**
+
+   ```sh
+   python -m venv venv
+   ```
+
+2. **Activate the virtual environment:**
+
+   - On Windows:
+     ```sh
+     venv\Scripts\activate
+     ```
+   - On macOS and Linux:
+     ```sh
+     source venv/bin/activate
+     ```
+
+3. **Install Dependencies:**
+
+   Ensure you have Python and `pip` installed. Then run:
+
+   ```sh
+   pip install -r requirements.txt
+   ```
+
+4. **Run the Flask Server:**
+
+   ```sh
+   python app.py
+   ```
+
+   The server will start running at `http://127.0.0.1:5000`.
+
+## Testing the API
+
+You can use the provided test scripts in the `test` directory to verify the functionality of the API. Ensure the server is running, and then execute the test scripts. Note that the `requests` package must be installed to use the test scripts:
+
+```sh
+pip install requests
+```
+
+Then run the test scripts:
+
+```sh
+python test_login.py
+python test_get_places.py
+python test_get_place.py
+python test_add_review.py
+python test_cors.py
+```
+
+These scripts will make HTTP requests to the API endpoints and print the results, helping you ensure that each part of the API is working as expected.
+
+## Notes
+
+- This API uses plain text passwords for simplicity and ease of testing. In a production environment, always use hashed passwords and secure authentication mechanisms.
+- The data provided in the `data/` directory is for testing purposes only. Modify the data as needed to fit your testing scenarios.
