@@ -100,4 +100,4 @@ def add_review(place_id):
     return jsonify({"msg": "Review added"}), 201
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5502)
+    app.run(debug=True, port=5500)
